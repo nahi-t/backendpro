@@ -1,26 +1,32 @@
 require("dotenv").config()
 const express=require("express")
 const app=express();
-const port=5001
+const cors = require('cors');
+const port=5000
 const userroute=require("./routes/userRout.js")
+const qustionrout=require('./routes/qustionrout.js')
 const db=require("./db/dbconfig.js")
-// midle ware to use
 
+// midle ware to use
+app.use(cors());
 // to extract json data
 app.use(express.json()); // For parsing application/json
-// app.use(express.urlencoded({ extended: true }));
+//  app.use(express.urlencoded({ extended: true }));
 app.use("/api/user",userroute)
+app.use("/api/qustion",qustionrout)
 
 async function start() {
     
-try {
-    const result= await db.execute("select 'test'")
-     console.log(result)
-     app.listen(port)
-     console.log("connected")
- } catch (error) {
-    console.log('somting is incorrect in app.js') 
- }
+    try {
+        const result = await db.execute("SELECT 'test'"); // Test DB connection
+        console.log("DB test result:conected", result);
+        
+        app.listen(port, () => {
+          console.log(`Server running on port ${port}`);
+        });
+      } catch (error) {
+        console.error("Error starting server:", error);
+      }
 }
 
 start()

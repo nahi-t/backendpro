@@ -46,7 +46,7 @@ async function reg(req, res) {
 
     } catch (err) {
         console.error("Registration error:", err);
-        res.status(500).json({ msg: "Server error during registration." });
+      return  res.status(500).json({ msg: "Server error during registration." });
     }
  }
 
@@ -72,20 +72,24 @@ async function login(req, res) {
    
      const username = user[0].username;
      const userid = user[0].userid; 
-     const token = jwt.sign({ username, userid }, "process.env.JWT_SECRATE", { expiresIn: "1d" }); // <-- And here!
-     return res.status(400).json({ msg: "user log in successful", token }); 
+     const token = jwt.sign({ username, userid }, "process.env.JWT_SECRATE", { expiresIn: "1d" }); 
+     return res.status(200).json({ msg: "user log in successful", token ,username}); 
 
     } catch (err) {
         console.error("Login error:", err);
-        res.status(500).json({ msg: "Server error during login." });
+      return  res.status(500).json({ msg: "Server error during login." });
     }
 }
 
 // Check User (example)
 async function checkUser(req, res) {
+   try {
     const username = req.user.username;
   
     const userid = req.user.userid; // Use 'userid' (lowercase 'id')
-    res.status(200).json({ msg: "Valid user", username, userid }); // Return 'userid'
+    res.status(200).json({ msg: "Valid user", username, userid });
+   } catch (error) {
+    return res.status(400).json({msg:"somtin wrong to chaking"})
+   } // Return 'userid'
 }
 module.exports = { reg, login, checkUser }
