@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "../axiosconfig";
+import "./AskQuestionForm.css";
+import { Link } from "react-router-dom";
+import HowItWorks from "../Pages/HowItWorks"
 
 function AskQuestionForm() {
   const token = localStorage.getItem('authToken'); // ✅ fix key name
@@ -50,10 +53,13 @@ function AskQuestionForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title:</label>
+    <>
+    <HowItWorks />
+    <form className="form-container" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label className="form-label">Title:</label>
         <input
+          className="form-input"
           type="text"
           name="title"
           value={data.title}
@@ -62,9 +68,10 @@ function AskQuestionForm() {
         />
       </div>
 
-      <div>
-        <label>Description:</label>
+      <div className="form-group">
+        <label className="form-label">Description:</label>
         <textarea
+          className="form-textarea"
           name="description"
           value={data.description}
           onChange={handleChange}
@@ -72,9 +79,10 @@ function AskQuestionForm() {
         />
       </div>
 
-      <div>
-        <label>Tags (comma separated):</label>
+      <div className="form-group">
+        <label className="form-label">Tags (comma separated):</label>
         <input
+          className="form-input"
           type="text"
           name="tags"
           value={data.tags}
@@ -83,9 +91,10 @@ function AskQuestionForm() {
         />
       </div>
 
-      <button type="submit">Submit Question</button>
+      <button className="submit-button" type="submit">Submit Question</button>
+      <Link to={"/"}>Go to Home Page</Link>
     </form>
-  );
+    </> );
 }
 
 export default AskQuestionForm;

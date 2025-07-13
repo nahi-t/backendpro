@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../axiosconfig.js"; // Your configured axios instance
+import axios from "../axiosconfig.js"; 
+import { appprovide } from "../App";
 
 function Login() {
   const navigate = useNavigate();
+  const { setuser } = useContext(appprovide);
 
   // 1. Correct formData for Login: only email and password
   const [formData, setFormData] = useState({
@@ -43,16 +45,19 @@ function Login() {
       } else {
         console.warn('Login successful, but no token received from backend!');
       }
-
+setuser({
+  username: response.data.username,
+})
       // Display success message from backend if available, otherwise a default
       setMessage({
         text: response.data.msg || 'Login successful!', // Use response.data.msg for success message
         type: 'success'
       });
-
+      
+        
       // Navigate to /home after a short delay to allow message to be seen
       setTimeout(() => {
-        navigate("/home"); // Redirect to your home/dashboard page
+        navigate("/"); // Redirect to your home/dashboard page
       }, 1500); // Navigate after 1.5 seconds
 
       // Optional: Reset form after successful login

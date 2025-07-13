@@ -1,0 +1,50 @@
+.flexRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px; /* fixed width for left column */
+}
+
+.icon {
+  font-size: 3rem;
+  color: #6b7280;
+}
+
+.username {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+}
+
+.rightColumn {
+  flex: 1; /* takes remaining width */
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-decoration: none;
+  transition: color 0.2s;
+  padding-left: 300px;
+}
+
+.title:hover {
+  color: #2563eb;
+}
+
+.divider {
+  margin-top: 1rem;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
