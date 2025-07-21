@@ -1,0 +1,83 @@
+/* AskQuestionForm.css */
+
+.form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.form-input,
+.form-textarea {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb; /* Blue 600 */
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.4);
+}
+
+.form-textarea {
+  min-height: 120px;
+}
+
+.submit-button {
+  background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.submit-button:hover {
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+}
+
+.submit-button:active {
+  background: #1e40af;
+}
+
+a {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  align-self: center;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
