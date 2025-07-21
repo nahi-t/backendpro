@@ -1,7 +1,4 @@
-const db = require("../db/dbconfig.js");
-
-
-
+const db = require("../db/dbconfig.js");  // assuming this exports a pg Pool or Client instance
 
 async function askq(req, res) {
   if (!req.body) {
@@ -9,19 +6,20 @@ async function askq(req, res) {
   }
 
   const userid = req.user.userid; 
-  const token=req.user.token
+  const token = req.user.token;
   const { title, description } = req.body;
 
   if (!title || !description ) {
     return res.status(400).json({ msg: "Please provide all required fields." });
-    
   }
 
   try {
-    await db.query(
-      "INSERT INTO question (userid, title, description) VALUES (?, ?, ?)",
-  [userid, title, description]
-    );
+    const text = `
+      INSERT INTO question (userid, title, description) 
+      VALUES ($1, $2, $3)
+    `;
+
+    await db.query(text, [userid, title, description]);
 
     return res.status(201).json({
       msg: "Question added successfully",
@@ -33,28 +31,26 @@ async function askq(req, res) {
   }
 }
 
-   
-
- async function storeq(req, res) {
-
+async function storeq(req, res) {
   try {
-    const [results] = await db.query(
-      `SELECT 
-  title,
-  description,
-  id,
-  u.username AS username
-FROM 
-  question q
-JOIN 
-  users u ON q.userid = u.userid;`
-    );
+    const text = `
+      SELECT 
+        q.title,
+        q.description,
+        q.id,
+        u.username AS username
+      FROM 
+        question q
+      JOIN 
+        users u ON q.userid = u.userid;
+    `;
 
-    res.status(200).json(results); 
+    const result = await db.query(text);
+    res.status(200).json(result.rows);
   } catch (error) {
     console.error("Database error:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
- }
+}
 
-module.exports = { askq,storeq };
+module.exports = { askq, storeq };

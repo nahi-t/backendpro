@@ -12,7 +12,7 @@ const db=require("./db/dbconfig.js")
 app.use(cors());
 // to extract json data
 app.use(express.json()); // For parsing application/json
-//  app.use(express.urlencoded({ extended: true }));
+ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user",userroute)
 app.use("/api/qustion",qustionrout)
 app.use("/api/answer",answerRout)
@@ -20,8 +20,8 @@ app.use("/api/answer",answerRout)
 async function start() {
     
     try {
-        const result = await db.execute("SELECT 'test'"); // Test DB connection
-        console.log("DB test result:conected", result);
+        const result = await db.query("SELECT 'test'"); // Test DB connection
+        console.log("DB test result:conected",result.rows[0]);  
         
         app.listen(port, () => {
           console.log(`Server running on port ${port}`);

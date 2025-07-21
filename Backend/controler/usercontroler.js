@@ -9,21 +9,17 @@ async function reg(req, res) {
     if (!username || !fname || !lname || !email || !password) {
         return res.status(400).json({ msg: "Please provide all required fields." });
     }
+try {
+   const { rows } = await db.query(
+  `SELECT * FROM users WHERE email = $1 OR username = $2`,
+  [email, username]
+);
 
-    try {
-        // Check if user already exists
-        const [userExists] = await db.query(
-            "SELECT username, userid FROM users WHERE username = ? OR email = ?",
-            [username, email]
-        );
-
-        
-        if (userExists.length > 0) {
-            return res.status(409).json({ 
-                msg: "Username or email already exists.",
-               // Optional: Return which field exists
-            });
-        }
+if (rows.length > 0) {
+  return res.status(409).json({
+    msg: "Username or email already exists.",
+  });
+}
         if (password.length <= 8) {
             return res.status(409).json({ 
                 msg: "password is must greater than 8.",
@@ -32,11 +28,16 @@ async function reg(req, res) {
         }
 
         // Insert new user into DB
-        const newUser = await db.query(
-            "INSERT INTO users (username, fname, lname, email, password) VALUES (?, ?, ?, ?, ?)",
-            [username, fname, lname, email, password] // In production, use hashedPassword
-            
-        );
+       const query = `
+  INSERT INTO users (username, fname, lname, email, password)
+  VALUES ($1, $2, $3, $4, $5)
+  ON CONFLICT (email)
+  DO NOTHING
+`;
+
+const values = [username, fname, lname, email, password];
+
+await db.query(query, values);
       
 
       return  res.status(201).json({ 
@@ -59,19 +60,24 @@ async function login(req, res) {
     }
 
     try {
-        const [user] = await db.query(
-            "SELECT userid,username,password FROM users WHERE email = ?  ",
+        const result = await db.query(
+            "SELECT userid,username,password FROM users WHERE email = $1  ",
             [email]
         );
-     if (user.length==0) {
-        return res.status(400).json({ msg: "invalid credential" });
-     }
-     if (password!==user[0].password) {
-        return res.status(400).json({ msg: "invalid password or email" });
-     }
+        if (result.rows.length === 0) {
+            return res.status(400).json({ msg: "Invalid credentials." });
+        }
+
+    const user = result.rows[0];
+
+    // Plain text password comparison (you should use bcrypt instead)
+    if (password !== user.password) {
+      return res.status(400).json({ msg: "Invalid email or password." });
+    }
+
    
-     const username = user[0].username;
-     const userid = user[0].userid; 
+     const username = user.username;
+     const userid = user.userid; 
      const token = jwt.sign({ username, userid }, "process.env.JWT_SECRATE", { expiresIn: "1d" }); 
      return res.status(200).json({ msg: "user log in successful", token ,username}); 
 

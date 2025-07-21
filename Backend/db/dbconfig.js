@@ -1,10 +1,11 @@
-const mysql2=require("mysql2")
+const{Pool}=require("pg")
 
-const dbconnection= mysql2.createPool({
+const dbconnection= new Pool({
     user:process.env.USER,
     database:process.env.DATABASE,
     host:"localhost",
     password:process.env.PASSWORD,
+    port:process.env.PORT || 5432, // Default PostgreSQL port is 5432, but can be overridden by .env
     connectionLimit:10
 })
 
@@ -15,4 +16,4 @@ const dbconnection= mysql2.createPool({
 //         console.log(result)
 //     }
 // })
-module.exports=dbconnection.promise()
+module.exports=dbconnection
