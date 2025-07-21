@@ -7,7 +7,7 @@ import { Route, Routes,useNavigate , Navigate,useLocation} from 'react-router-do
 import axios from './axiosconfig'
 import AskQuestionForm from './Qustion/AskQuestionForm'
 import QuestionDetail from './Qustion/QuestionDetail';
-import About from './Pages/about'
+import About from './Pages/About'
 import Navbar from './nav/Navbar'
 import HowItWorks from './Pages/HowItWorks'
 export const  appprovide=createContext()
@@ -51,7 +51,7 @@ export default function App() {
      <Route path='/reg' element={<Reg/>} />
      <Route path='/qustion' element={<AskQ/>} />
      <Route path='/seeq' element={<AskQuestionForm/>} />
-     <Route path="/about" element={<About />} />
+     <Route path="/About" element={<About />} />
      <Route path="/question/:id" element={<QuestionDetail />} />
      <Route path="/ask" element={<HowItWorks />} />
 

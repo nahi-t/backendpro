@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../axiosconfig';
 import asq from './asq.module.css'
+
 import { IoMdContact } from "react-icons/io";
 
 
 import { Link } from 'react-router-dom';
 
 function AskQ() {
+  
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import Addanswer from '../answer/Addanswer.jsx';
 import Seeanswer from '../answer/Seeanswer.jsx';
 import './QuestionDetail.css'; // ✅ import the CSS
 
-function QuestionDetail() {
+function QuestionDetail( ) {
   const { id } = useParams();
   const [reloadAnswers, setReloadAnswers] = useState(false);
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from '../axiosconfig';
 import './Seeanswer.css'; // ✅ import the CSS file
 
+
 function Seeanswer({ questionId,reload  }) {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,32 +33,40 @@ function Seeanswer({ questionId,reload  }) {
   }, [questionId,reload]);
 
   return (
+    <>
+   
     <div className="see-answer-container">
-      <h4 className="see-answer-title">Answers:</h4>
-      {answers.description}
+    <h4 className="see-answer-title">Answers:</h4>
+    {answers.description}
 
-      {loading && <p className="see-answer-loading">Loading answers...</p>}
-      {error && <p className="see-answer-error">{error}</p>}
+    {loading && <p className="see-answer-loading">Loading answers...</p>}
+    {error && <p className="see-answer-error">{error}</p>}
 
-      {!loading && !error && (
-        answers.length === 0 ? (
-          <p className="see-answer-empty">No answers yet.</p>
-        ) : (
-          <div className="see-answer-list">
-            {answers.map((a) => (
-              <div key={a.id || a._id} className="see-answer-item">
-                <p className="see-answer-content">{a.answer}</p>
-                <div className="see-answer-meta">
-                  <strong>{a.username || 'Anonymous'}</strong>
-                   {a.title}
-                  {a.title && <span className="see-answer-title-label"> —    {a.description}</span>}
-                </div>
+    {!loading && !error && (
+      answers.length === 0 ? (
+        <p className="see-answer-empty">No answers yet.</p>
+      ) : (
+        <div className="see-answer-list">
+          {answers.map((a) => (
+            <div key={a.id || a._id} className="see-answer-item">
+                
+           {a.title && <span className="see-answer-title-label"> *** {a.description}**</span>}
+              <p className="see-answer-content">{a.answer}</p>
+              <div className="see-answer-meta">
+                <strong>{a.username || 'Anonymous'}</strong>
+             
+                {a.title && <span className="see-answer-title-label"> —    {a.description}</span>}
               </div>
-            ))}
-          </div>
-        )
-      )}
-    </div>
+             
+            </div>
+            
+          ))}
+        </div>
+      )
+    )}
+  </div>
+    </>
+    
   );
 }
 
